@@ -1,0 +1,20 @@
+/* CSS HEX */
+:root{
+	--citrine: #d8c420ff;
+	--spanish-gray: #9a9497ff;
+	--palatinate-purple: #4c1e4fff;
+	--midnight-green-eagle-green: #114b5fff;
+	--blue-sapphire: #005e7cff;
+}
+
+
+header {
+  background-color: var(--spanish-gray);
+  text-align: center;
+  padding: 20px;
+}
+
+#display-generacion{
+	text-align: center;
+}
+

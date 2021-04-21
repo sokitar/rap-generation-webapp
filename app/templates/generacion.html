@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generacion Liricas RAP</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	<!-- <link rel="stylesheet" href="../static/css/main.css"> -->
+</head>
+<body>
+	<header>
+		<div class="logo">AQUI VA EL LOGO</div>
+		<div class="info_autor">
+				TFG - Autor: Oscar Alexander Kirschstein Schafer
+				<br>
+				Escuela Politécnica Superior - Universidad Autónoma de Madrid
+		</div>
+	</header>
+	<div id="display-generacion">
+		<div id="display-info">{{ info }}</div>
+		<div id="display-liricas">{{ texto_generado }}</div>
+	</div>
+</body>
+</html>
