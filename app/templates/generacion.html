@@ -3,10 +3,117 @@
 <head>
 	<title>Generacion Liricas RAP</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-	<!-- <link rel="stylesheet" href="../static/css/main.css"> -->
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+	<!-- Scripts de ajax --> 
+	<script type="text/javascript"> 
+		function semillas_blanco(){
+			$(".semilla").each(function(){
+				$(this).css("background-color", "white");
+			})
+			$(".semillarandom").css("background-color", "white");
+			$("#randomboton").css("background-color", "white");
+		}
+
+		function seleccionar_semilla(idx){
+			semillas_blanco()
+			$("#" + idx).css("background-color", "#dbbaff");
+			$("#idx_seleccionado").text(idx);
+		}
+
+		function seleccionar_random(){
+			semillas_blanco()
+			$("#randomboton").css("background-color", "#dbbaff");
+			$("#idx_seleccionado").text($(".semillarandom").text());
+			return false;
+		}
+
+		$(function() {
+		    $('#refrescarboton').bind('click', function() {
+				$.getJSON('/refrescar_semillas', {
+				}, 
+				function(data) {
+					$("#listasemillas").empty();
+					var i;
+					for (i = 0; i < data.semillas.length-1; i++) {
+					  $("#listasemillas").append("<div id='"+ data.idxs[i] +"'class='semilla' onclick='seleccionar_semilla("+ data.idxs[i] +")'>"+data.semillas[i]+"</div>");
+					}
+					$("#listasemillas").append("<div id='"+ data.idxs[data.semillas.length-1] +"' class='semilla bottom' onclick='seleccionar_semilla("+ data.idxs[data.semillas.length-1] +")'>"+data.semillas[data.semillas.length-1]+"</div>");
+					$("#listasemillas").append("<div id='"+ data.idxs[data.semillas.length] +"' class='semillarandom' onclick='seleccionar_semilla("+ data.idxs[data.semillas.length] +")'>"+data.sem_random+"</div>");
+				}
+				);
+				return false;
+				});
+				});	
+
+		function isInteger(value) {
+		  return /^\d+$/.test(value);
+		}
+		function isFloat(val) {
+		    var floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
+		    if (!floatRegex.test(val))
+		        return false;
+
+		    val = parseFloat(val);
+		    if (isNaN(val))
+		        return false;
+		    return true;
+		}
+
+		$(function() {
+		    $('#botongenerar').bind('click', function() {
+		    	if ($('#idx_seleccionado').is(':empty')){
+		    		alert("Tienes que seleccionar una frase a partir de la cual generar texto. (También vale seleccionar random)");
+		    		return;
+		    	}
+
+		    	var alerta_tipos = "La diversidad tiene que ser un número entre 0 y 1. El número de palabras un número entero positivo menor que 501."
+
+		    	var datos = {
+					idx: $('#idx_seleccionado').text()
+				}
+				diversity = $("#inputdiv").val()
+				if(diversity){
+			    	if(isFloat(diversity)){
+			    		diversity = parseFloat(diversity)
+			    		if (diversity> 1 || diversity <0) {
+				    		alert(alerta_tipos);
+				    		return false;
+			    		}
+			    	}else{
+			    		alert(alerta_tipos);
+			    		return false;
+			    	}
+					datos.div = diversity
+				}
+				n_palabras = $("#inputnp").val()
+				if(n_palabras){
+					if(isInteger(n_palabras)){
+			    		n_palabras = parseInt(n_palabras)
+			    		if (n_palabras <0 || n_palabras > 500) {
+				    		alert(alerta_tipos);
+				    		return false;
+			    		}
+			    	}else{
+			    		alert(alerta_tipos);
+			    		return false;
+			    	}
+					datos.np = n_palabras
+				}
+				$.getJSON('/generar_texto', datos, 
+				function(data) {
+					$("#displayinfo").html(data.info);
+					$("#displayliricas").html(data.texto_generado);
+				}
+				);
+return false;
+		    });
+		 });	
+
+		
+	</script>
 </head>
 <body>
-	<header>
+	<header class="sector">
 		<div class="logo">AQUI VA EL LOGO</div>
 		<div class="info_autor">
 				TFG - Autor: Oscar Alexander Kirschstein Schafer
@@ -14,9 +121,38 @@
 				Escuela Politécnica Superior - Universidad Autónoma de Madrid
 		</div>
 	</header>
-	<div id="display-generacion">
-		<div id="display-info">{{ info }}</div>
-		<div id="display-liricas">{{ texto_generado }}</div>
+	<div id="configuracion" class="sector">
+		<div id="wrappersemillas">
+			<div id="listasemillas">
+				{% for semilla in semillas[:-1] %}
+				<div id={{idxs[loop.index0]}} class="semilla" onclick="seleccionar_semilla({{idxs[loop.index0]}})">{{semilla}}</div>
+				{% endfor %}
+				<div id={{idxs[-2]}} class="semilla bottom" onclick="seleccionar_semilla({{idxs[-2]}})">{{semillas[-1]}}</div>
+				<div id={{idxs[-1]}} class="semillarandom" onclick="seleccionar_semilla({{idxs[-1]}})">{{sem_random}}</div>
+			</div>
+			<div id="idx_seleccionado"></div>
+			<div id="listasemillasbotones">
+				<button id="refrescarboton">Refrescar</button>
+				<button id="randomboton", onclick="seleccionar_random()">Random</button>
+			</div>
+		</div>
+		<div id="derechaformulario">
+			<div class="inputgenerar">
+				<label class="formlabel">Diversidad</label>
+				<input id="inputdiv" type="text" name="diversidad" placeholder="0.4">
+			</div>
+			<div class="inputgenerar">
+				<label class="formlabel">Nº Palabras</label>
+				<input id="inputnp" type="text" name="numpalabras" placeholder="100">
+			</div>
+			<button id="botongenerar">GENERAR!</button>
+		</div>
+	</div>
+	<div id="displaygeneracion" class="sector">
+		<div id="displaycontenedor">
+			<div id="displayinfo">{{ info }}</div>
+			<div id="displayliricas">{{ texto_generado }}</div>
+		</div>
 	</div>
 </body>
 </html>

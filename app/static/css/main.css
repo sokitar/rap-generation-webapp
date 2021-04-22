@@ -7,14 +7,145 @@
 	--blue-sapphire: #005e7cff;
 }
 
+*{
+	box-sizing: border-box;
+}
+
+body {
+	background-color: var(--blue-sapphire);
+	width: 100%;
+	margin: 8px 0px;
+}
 
 header {
-  background-color: var(--spanish-gray);
-  text-align: center;
-  padding: 20px;
-}
-
-#display-generacion{
 	text-align: center;
+	padding: 10px;
 }
 
+button{
+	background-color: #ededed;
+}
+
+.sector{
+	margin: auto;
+	width: 97%;
+	background-color: var(--spanish-gray);
+	border-radius: 5px;
+	border-style: double;
+	border-width: 8px;
+	border-color: var(--citrine);
+	padding: 15px 10px;
+}
+
+#configuracion{
+	position: relative;
+	overflow: auto;
+	margin: auto;
+	margin-top:10px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	height:auto;
+}
+
+#wrappersemillas{
+	float:left;
+	overflow: auto;
+	width: 70%;
+	background-color: white;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+#listasemillas{
+	width: 100%;
+}
+
+#listasemillasbotones{
+	margin-top: 14px;
+	padding: 7px 0px;
+	border-style: solid;
+	border-width: 1px 0 0 0;
+	border-color: black;
+}
+
+.semilla{
+	border-style: solid;
+	border-color: #cad4e3;
+	border-width: 0 0 1px 0;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	cursor:pointer;
+}
+
+.semilla.bottom {
+	cursor:pointer;
+	border-style: none;
+}
+
+.semillarandom{
+	cursor:pointer;
+	visibility: hidden;
+	position :absolute;
+}
+
+#idx_seleccionado{
+	visibility: hidden;
+	position :absolute;
+}
+
+#derechaformulario{
+	width: 29%;
+	margin-left: 1%;
+	float:left;
+}
+
+#derechaformulario .inputgenerar{
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.inputgenerar input{
+	border-radius: 5px;
+}
+
+.formlabel{
+	width: 30%;
+	text-align: right;
+	display: inline-block;
+}
+
+#botongenerar{
+	display: block;
+	width: 40%;
+	height: 30%;
+	margin: auto;
+	vertical-align: middle;
+}
+
+#displaygeneracion{
+	padding: 8px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+}
+
+#displaycontenedor{
+	background-color: white;
+	width: 100%;
+	padding: 15px 10px 15px 10px;
+	border-radius: 5px;
+}
+
+#displayinfo{
+	width: 100%;
+	text-align: center;
+	padding-bottom: 8px;
+}
+
+#displayliricas{
+	width: 100%;
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	padding-top: 8px;
+	background-color: white;
+	text-align: left;
+}
