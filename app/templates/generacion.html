@@ -33,6 +33,8 @@
 				}, 
 				function(data) {
 					$("#listasemillas").empty();
+					$("#randomboton").css("background-color", "white");
+					$("#idx_seleccionado").empty()
 					var i;
 					for (i = 0; i < data.semillas.length-1; i++) {
 					  $("#listasemillas").append("<div id='"+ data.idxs[i] +"'class='semilla' onclick='seleccionar_semilla("+ data.idxs[i] +")'>"+data.semillas[i]+"</div>");
@@ -74,7 +76,7 @@
 				diversity = $("#inputdiv").val()
 				if(diversity){
 			    	if(isFloat(diversity)){
-			    		diversity = parseFloat(diversity)
+			    		diversity = parseFloat(diversity.replace(',', '.'))
 			    		if (diversity> 1 || diversity <0) {
 				    		alert(alerta_tipos);
 				    		return false;
@@ -121,6 +123,17 @@ return false;
 				Escuela Politécnica Superior - Universidad Autónoma de Madrid
 		</div>
 	</header>
+	<div id="funcionamiento" class="sector">
+		<div id="titulofuncionamiento"><b>FUNCIONAMIENTO:</b></div>
+		<div id="descripcionfuncionamiento">Para poder generar líricas, obligatoriamente se debe seleccionar una frase (semilla), que la IA usará como base para generar el texto. Posteriormente se deberá pulsar el botón "GENERAR!" y esperar breves instantes. En el apartado inferior aparecerá un resumen de la generación y la letra generada.
+		<br>
+		<i>Parámetros opcionales:</i>
+		<br>
+		Diversidad: Por defecto <b>0,4</b>. Debe ser un número real entre 0 y 1. Directamente proporcional a la aleatoriedad de la predicción de la siguiente palabra en las líricas. Cuanto menor sea, más se parecerá el texto a las líricas de entrenamiento.
+		<br>
+		Nº Palabras: Por defecto <b>100</b>. Debe ser un número entero positivo menor que 501. Simboliza número de palabras a generar a partir de la frase inicial.
+		</div>
+	</div>
 	<div id="configuracion" class="sector">
 		<div id="wrappersemillas">
 			<div id="listasemillas">

@@ -8,6 +8,7 @@
 }
 
 *{
+	font-family: Arial;
 	box-sizing: border-box;
 }
 
@@ -35,6 +36,10 @@ button{
 	border-width: 8px;
 	border-color: var(--citrine);
 	padding: 15px 10px;
+}
+
+#funcionamiento{
+	margin-top:10px;
 }
 
 #configuracion{
